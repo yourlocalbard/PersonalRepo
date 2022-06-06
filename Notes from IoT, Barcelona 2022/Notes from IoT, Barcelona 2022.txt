@@ -1,0 +1,157 @@
+Notes from IoT, Barcelona 2022
+
+Session: Defend Against INCONTROLLER Attack Tools
+- Research is still being done on the current examples
+- Background
+    - Malicious capabilities via partnerships, incident response engagements, research, etc
+    - Mandiant analysis began in early 2022
+        - Collab with Schneider Electric 
+- What is INCONTROLLER? 
+    - TAGRUN
+    - CODECALL 
+    - OMSHELL
+    - Clustering additional tools on IT side of things
+- Why is INCONTROLLER Important or Relevant?
+    - Large and complex code
+    - Large but modular framework
+        - TAGRUN/OMSHELL/CODECALL => could be used independently or together
+    - Extensible code allows the attacker to implement new features and attack modules
+    - Targeted devices are often integrated in automation machinery across many industries
+    - Likely that observed modules were built to target a specific environment(s)
+    - Very likely state sponsored 
+- Tools
+    - TAGRUN: 
+        - ICS reconnaissance and attac ktool targeting OPC UA servers and tags
+            - OPC Unified ARchitecture (OPC UA) to centralize process data
+            - Scanner, reader, and writer utility
+        - Scan IP addresses and ports via ICMP ping and sweep
+        - Read server structure, read/write OPC tag values
+        - Login methods: credentials, certificates, brute force
+            - This can include information from previous attacks
+        - Similar to OPC DA component in INDUSTROYER v1
+    - CODECALL: 
+        - Framework for interacting with Modbus-enabled devices and specific PLCs
+            - Modbus is one of the most common ICS network protocols
+        - Scan/connect, and read/write device registers 
+        - Contains module for Schneider Electric TM251 PLCs 
+            - Scans for devices (27127/UDP)
+            - Implements EcoStrxure Machine Exper/SoMachine (1740/UDP), based on Codesys
+            - Attempts login via brute force and hardcoded dictionary
+            - Mimics engineering workstation to interact with program to access data
+            - There are also commands to disrupt, sabotage, and even wipe the device if desired
+        - Target of CodeCall: 
+            - TM221
+                - "Referenced"
+                - /IO: Small(< 40 I/O)
+                - Applications repetitive machines 
+            - TM251
+            - TM258
+    - OMSHELL: 
+        - Scan/connect to Omron PLCs using MAC addresses, HTTP, and FINS protocol
+            - Omron's proprietary Factory Interface Netowrk Service (FINS) protocol (9600/UDP)
+        - Interact with Omron PLCs using HTTP
+            - Query devie information (model, device name, nmode, user, CPU info, etc)
+            - Transfer files, backup/load configurations
+            - Read/write values of connected EtherCAT devices- Execute Telnet damon on device to upload a payload
+            - Some disruption capabilities (eg. wipe memory)
+        - Contains servo module to read/write data
+        - Specifically used for R88D family of devices
+    - Most device functionalities are pretty mindless
+        - They're meant to be basic for machines to work efficiently
+        - These tools are used to break in and cause issues
+    - Potential Supporting Windows Tooling
+- Attack Scenarios
+    - Typically starts on the IT side of things 
+    - Assuming the attacker has enough intelligence
+        - Scenario 1: 
+            - Shutting down operations 
+                - No need for intelligence
+                - Basically going in and breaking stuff
+        - Scenario 2: 
+            - Sabotage industrial process   
+                - Requires inside knowledge of product
+                - Messing with production line to modify final product quality
+        - Scenario 3: 
+            - Disable safety monitors to cause physical destruction
+- INCONTROLLLER is verylikely state-sponsored malware
+    - Doesn't overlap with any previously tracked group
+    - Very likely state-sponsored given: 
+        - Tool complexity
+        - Expertise and resources required to build IT
+        - Limited utility in financially motivated operations
+    - Limited circumstancial evidence suggesting a Rissua-Nexus
+    - Consistent with Russia's Historical ICS Threat Activity
+- Considerations
+    - How should we view the threat posed by INCONTROLLER?
+        - Is there a specific target victim potentially in the case of TRITON and STUXNET
+            - Not quite, but it's a great fearmongoring tool
+        - Or is it a capability, similar to the repeated deployment of INDUSTROYER?
+    - Which industries would most likely be targeted? 
+        - Utilities have been the focus of historical ICS threat activity
+        - The devices are really generic so it's hard to say for sure
+        - However, nano PLCs and stand-alone machinery suggestive of manufacturing targets
+    - Did the disclosure of INCONTROLLLER burn the adversary's capability? 
+        - It will at least help people to find more information to defend against it
+- Q/A 
+    - Is the dictionary a resource pointed somewhere else or hardcoded? 
+        - Hardcoded, however it's a little trivial
+        - Customized for OT Environments, so not just brute-force 
+- Sponsored by Mandiant
+
+Note: Jules works for a company called We Work In Space
+- It's a company helping people find non-tech jobs who are passionate about space
+- Website: www.weworkinspace.com
+- Check that out because it looks pretty cool
+
+Session: Building the Future of Construction with Innovation
+- Sponsored by PLC
+- Speaker: Chief Information Officer: Mark Bryant
+- Insights from People, Places, Things
+- People Insights 
+    - Site configuration + Access options to keep track of who is coming and going
+    - Enhance worker site safety  
+        - Certain protocols they are trained in in order to know how to handle emergencies 
+    - Managing deliveries and logistics in order to reduce loss of productivity and ensure material quality and safety
+- Job Site Insights is the name of the technology
+- Materials, Events, Insights
+    - Data is gained from everything we do and server
+- Technologies to catch conditions such as heat, humidity
+    - Catch conditions that would require rework if not handled properly
+- Improved schedule
+    - Operational efficiency to get materials from one place to another faster
+- Water damage issues are fairly prevelent
+    - Toilet overflow? Sensor catches it and shuts off the water before things get out of hand
+- The monitoring and the sensors catch all sorts of stuff  
+    - Asset tracking
+    - Heat and humidity 
+    - Water damage potential
+    - Seismic activity
+- Using the Boston Dynamics robotic dog to walk through the building to find any vulnerabilities 
+- Job Site Insights has a mobile app and a web application
+- Sensor Technology, IoT Categories
+    - Health Safety and Environment
+    - Quality
+    - Wrap-up Liability
+    - Subcontractor Default Insurance
+    - Builder's Risk Insurance
+- People, Places, and Things
+    - Open API Interface   
+        - Sort of a plug-n-play situation
+        - Works alongside several apps and technologies so it's customizable
+    - It's meant to be simple
+- Q/A
+    - How is having sub-contractors using this going? 
+        - Facial recognition is difficult
+        - Makes logistics much easier 
+            - Scheduling is more synced 
+        - Subcontractors are more skeptical because it's newer technology
+    - Is all of that tied into a BIM system and/or an augmented reality system to track progress?
+        - Integration is still being worked on
+        - Creating a digital twin during construction
+    - When it comes to managing temporary infrastructure (concrete, humidity, etc), who manages the tech to make sure it doesn't get damaged?
+        - Tech people in district offices to manage 
+        - Some of the sensors are sacrificed (concrete, sometimes humidity)
+    - What are the biggest obstacles you've encountered when trying to incorporate the technology?
+        - People understanding and accepting change
+        - Educating people to understand the technology
+        - Margins in construction are low, and it's an additional price
