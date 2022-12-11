@@ -6,11 +6,12 @@ import seaborn as sns
 from scipy.stats import norm
 import datetime
 
-file = pd.read_csv("ETH-USD.csv", parse_dates=True)
-date = pd.to_datetime(file.time)
-data = file.close
-#plt.plot(date, data)
-#plt.show()
+file = pd.read_csv("Math_400_Project\ETH-USD.csv", parse_dates=True)
+date = pd.to_datetime(file.Date)
+data = file.Close
+
+plt.plot(date, data)
+plt.show()
 
 log_returns = np.log(1 + data.pct_change())
 u = log_returns.mean()
