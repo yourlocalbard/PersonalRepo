@@ -6,10 +6,12 @@ import seaborn as sns
 from scipy.stats import norm
 import datetime
 
+#Import and read the CSV file
 file = pd.read_csv("Math_400_Project\ETH-USD.csv", parse_dates=True)
 date = pd.to_datetime(file.Date)
 data = file.Close
 
+#Plotting to show the history of ETH-USD valuation
 plt.plot(date, data)
 plt.show()
 
@@ -32,11 +34,13 @@ for t in range(1, days):
 base = date.iloc[0]
 future_dates = [base + datetime.timedelta(days=x) for x in range(days)]
 
+#Printing line graph with potential projected values
 plt.plot(date, data, linestyle='dashed')
 plt.plot(future_dates, price_paths)
 plt.ylabel("Close price (ETH/USD)")
 plt.show()
 
+#Printing plot for valuation frequency
 sns.histplot(price_paths[-1,:], bins = 20, stat = "frequency")
 plt.xlabel("Close price (ETH/USD)")
 plt.ylabel("Frequency")
